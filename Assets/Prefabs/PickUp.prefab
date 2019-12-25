@@ -94,10 +94,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 1
+  timeTillFall: 1
+  explosionEffect: {fileID: 1014004800693595940, guid: 450e2a7b9287cc14baf7e77078d79333,
+    type: 3}
   ground:
     serializedVersion: 2
     m_Bits: 256
-  timeTillFall: 1
 --- !u!65 &7874348784159777010
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerBehaviour : MonoBehaviour, IGroundLayerInteraction
+public class PlayerBehaviour : MonoBehaviour
 {
     [Header("Player Attributes")]
     public float speed;
@@ -15,8 +15,7 @@ public class PlayerBehaviour : MonoBehaviour, IGroundLayerInteraction
 
     [Header("Unity settings")]
     public LayerMask ground;
- 
-    private SmoothFollow _cameraMovement;
+
     private Rigidbody _rb;
     private Vector3 _motionDirection = Vector3.forward;
 
@@ -29,12 +28,11 @@ public class PlayerBehaviour : MonoBehaviour, IGroundLayerInteraction
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _cameraMovement = mainCamera.GetComponent<SmoothFollow>();
     }
 
     void Update()
     {
-        CheckGroundLayer(transform, ground);
+    //   CheckGroundLayer(transform, ground);
 
         if(Input.touchCount > 0 && GameManager.instance.gameStarted)
         {
@@ -48,14 +46,21 @@ public class PlayerBehaviour : MonoBehaviour, IGroundLayerInteraction
 
     private void FixedUpdate()
     {
-        ApplyMovement(_motionDirection);
-
-        _cameraMovement.Set(transform, offset, smoothing);
+        if(GameManager.instance.gameStarted)
+        {
+          //  CheckGroundLayer(transform, ground);
+            ApplyMovement(_motionDirection);
+        }
     }
 
     private void ApplyMovement(Vector3 direction)
     {
-        _rb.MovePosition(transform.position + direction * speed * Time.deltaTime);
+        var isGrounded = CheckGroundLayer(transform, ground);
+
+        if(isGrounded)
+        {
+           _rb.MovePosition(transform.position + direction * speed * Time.deltaTime);
+        }
     }
 
     public void ChangeDirection()
@@ -74,9 +79,8 @@ public class PlayerBehaviour : MonoBehaviour, IGroundLayerInteraction
         }
     }
 
-    public void CheckGroundLayer(Transform current, LayerMask ground)
+    public bool CheckGroundLayer(Transform current, LayerMask ground)
     {
-
         Collider[] colliders = Physics.OverlapSphere(current.position, current.localScale.x /2, ground);
 
         bool isGrounded = colliders.Length != 0 ? true : false;
@@ -85,6 +89,8 @@ public class PlayerBehaviour : MonoBehaviour, IGroundLayerInteraction
         {
             GameManager.instance.gameIsOver = true;
         }
+
+        return isGrounded;
     }
 
     private void OnDrawGizmosSelected()

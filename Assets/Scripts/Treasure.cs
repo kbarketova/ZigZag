@@ -7,6 +7,7 @@ public class Treasure : MonoBehaviour, IGroundLayerInteraction, IGravityChanges
     [Header("Settings")]
     public int value = 1;
     public float timeTillFall = 1;
+    public GameObject explosionEffect;
     public LayerMask ground;
 
     private Rigidbody _rb;
@@ -21,8 +22,21 @@ public class Treasure : MonoBehaviour, IGroundLayerInteraction, IGravityChanges
         if(other.CompareTag("Player"))
         {
             GameManager.instance.Collect(value);
-            Destroy(gameObject);
+
+            StartCoroutine(Explode());
+            //Instantiate(explosionEffect, transform.position, Quaternion.identity);
+
+            //new WaitForEndOfFrame();
+            //Destroy(gameObject);
         }
+    }
+
+    public IEnumerator Explode()
+    {
+        Instantiate(explosionEffect, transform.position, Quaternion.identity);
+
+        yield return new WaitForSeconds(.1f);
+        Destroy(gameObject);
     }
 
     public void CheckGroundLayer(Transform current, LayerMask ground)

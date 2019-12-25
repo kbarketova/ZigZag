@@ -50,7 +50,7 @@ public class Spawner : MonoBehaviour
         _nextSpawnTime = Time.time + secondsBetweenSpawning;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (Time.time >= _nextSpawnTime)
         {
@@ -76,6 +76,7 @@ public class Spawner : MonoBehaviour
     {
         var current = _road.Last();
         var forward = Mathf.Floor(UnityEngine.Random.Range(1, 1001)) % 2 == 0;
+       // var forward = true;
 
         var position = current.transform.position;
 
