@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerBehaviour : MonoBehaviour
+public class PlayerBehaviour : MonoBehaviour, IGroundLayerInteraction
 {
     [Header("Player Attributes")]
     public float speed;
@@ -32,8 +32,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
-    //   CheckGroundLayer(transform, ground);
-
         if(Input.touchCount > 0 && GameManager.instance.gameStarted)
         {
            Touch touch = Input.GetTouch(0);
@@ -48,7 +46,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if(GameManager.instance.gameStarted)
         {
-          //  CheckGroundLayer(transform, ground);
             ApplyMovement(_motionDirection);
         }
     }

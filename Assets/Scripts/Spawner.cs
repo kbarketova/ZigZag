@@ -76,7 +76,6 @@ public class Spawner : MonoBehaviour
     {
         var current = _road.Last();
         var forward = Mathf.Floor(UnityEngine.Random.Range(1, 1001)) % 2 == 0;
-       // var forward = true;
 
         var position = current.transform.position;
 

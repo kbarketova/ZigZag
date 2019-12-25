@@ -24,10 +24,6 @@ public class Treasure : MonoBehaviour, IGroundLayerInteraction, IGravityChanges
             GameManager.instance.Collect(value);
 
             StartCoroutine(Explode());
-            //Instantiate(explosionEffect, transform.position, Quaternion.identity);
-
-            //new WaitForEndOfFrame();
-            //Destroy(gameObject);
         }
     }
 
@@ -39,13 +35,15 @@ public class Treasure : MonoBehaviour, IGroundLayerInteraction, IGravityChanges
         Destroy(gameObject);
     }
 
-    public void CheckGroundLayer(Transform current, LayerMask ground)
+    public bool CheckGroundLayer(Transform current, LayerMask ground)
     {
         var isGrounded = Physics.Raycast(current.position, Vector3.down, 1.0f, ground);
         if (!isGrounded)
         {
             StartCoroutine(FallDown());
         }
+
+        return isGrounded;
     }
 
     public IEnumerator FallDown()

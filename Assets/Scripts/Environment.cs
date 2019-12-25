@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IGroundLayerInteraction
 {
-    void CheckGroundLayer(Transform current, LayerMask ground);
+    bool CheckGroundLayer(Transform current, LayerMask ground);
 }
 
 public interface IGravityChanges
